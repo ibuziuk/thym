@@ -23,6 +23,8 @@ import org.eclipse.debug.core.model.IStreamMonitor;
 public class CordovaCLIStreamListener implements IStreamListener {
 
 	private static final String ERROR_PREFIX = "Error:";
+	private static final String WIN_ERROR_PATTERN = "is not recognized as an internal or external command";
+	
 	private StringBuffer errorMessage = new StringBuffer();
 	private final StringBuffer message = new StringBuffer();
 	
@@ -36,6 +38,9 @@ public class CordovaCLIStreamListener implements IStreamListener {
 			if(line.startsWith(ERROR_PREFIX)){
 				error = true;
 				errorMessage = errorMessage.append(line.substring(ERROR_PREFIX.length(), line.length()));
+			}else if (line.contains(WIN_ERROR_PATTERN)){
+				error = true;
+				errorMessage = errorMessage.append(line);
 			}else{
 				if(error){
 					errorMessage.append(System.lineSeparator());	

@@ -175,9 +175,12 @@ public class CordovaCLI {
 	public IProcess startShell(final IStreamListener listener, final IProgressMonitor monitor, 
 			final ILaunchConfiguration launchConfiguration) throws CoreException{
 		ArrayList<String> commandList = new ArrayList<String>();
-		//TODO: handle windows
-		commandList.add("/bin/bash");
-		commandList.add("-l");
+		if (isWindows()) {
+			commandList.add("cmd");
+		} else {
+			commandList.add("/bin/bash");
+			commandList.add("-l");
+		}
 		ExternalProcessUtility ep = new ExternalProcessUtility();
 		IProcess process = ep.exec(commandList.toArray(new String[commandList.size()]), getWorkingDirectory(), 
 				monitor, null, launchConfiguration);
@@ -226,6 +229,13 @@ public class CordovaCLI {
 		if(result.hasError()){
 			throw result.asCoreException();
 		}
+	}
+	
+	/*
+	 * TODO: Need to replace this with org.eclipse.wst.jsdt.js.node.util.PlatformUtil method call 
+	 */
+	private boolean isWindows() {
+		return System.getProperty("os.name").startsWith("Win");
 	}
 	
 }

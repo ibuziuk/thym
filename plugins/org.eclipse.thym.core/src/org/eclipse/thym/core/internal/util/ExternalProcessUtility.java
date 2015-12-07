@@ -129,7 +129,6 @@ public class ExternalProcessUtility {
 	public IProcess exec(String[] command, File workingDirectory, 
 			IProgressMonitor monitor, String[] envp, 
 			ILaunchConfiguration launchConfiguration ) throws CoreException{
-		
 		checkCommands(command);
 		checkWorkingDirectory(workingDirectory);
 		if(monitor == null ){
